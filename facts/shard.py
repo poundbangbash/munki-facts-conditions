@@ -8,7 +8,7 @@ import os
 from Foundation import NSBundle
 
 
-def serial():
+def get_serial():
     '''Return the machine serial number.'''
     IOKit_bundle = NSBundle.bundleWithIdentifier_("com.apple.framework.IOKit")
 
@@ -36,6 +36,7 @@ def serial():
 
 def fact():
     '''Return the machine shard value based off the serial number.'''
+    serial = get_serial()
     if serial is None:
         return 0
     # If /usr/local/shard/production exists shard is always 100 (C-levels, never testers)
@@ -45,7 +46,7 @@ def fact():
     elif os.path.exists('/usr/local/shard/testing'):
         shard = 1
     else:
-        shard = int(int(hashlib.md5(serial()).hexdigest(), 16) % 100)
+        shard = int(int(hashlib.md5(serial).hexdigest(), 16) % 100)
     # we don't want to have a zero shard
     if shard == 0:
         return {'shard': shard + 1}
