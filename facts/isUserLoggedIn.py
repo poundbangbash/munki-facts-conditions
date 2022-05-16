@@ -8,7 +8,7 @@ def fact():
     '''Get the current logged in user'''
     try:
     	username = (SCDynamicStoreCopyConsoleUser(None, None, None) or [None])[0]
-    	username = [username,""][username in [u"loginwindow", None, u""]]
+    	username = [username,""][username in ["loginwindow", None, ""]]
     except (IOError, OSError):
         pass
 

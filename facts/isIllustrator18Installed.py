@@ -9,4 +9,4 @@ def fact():
 
 
 if __name__ == '__main__':
-    print fact()
+    print(fact())

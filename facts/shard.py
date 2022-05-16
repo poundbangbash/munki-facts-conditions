@@ -25,7 +25,7 @@ def get_serial():
 
     platformExpert = IOServiceGetMatchingService(
                         kIOMasterPortDefault,
-                        IOServiceMatching("IOPlatformExpertDevice")
+                        IOServiceMatching(b"IOPlatformExpertDevice")
                      )
     serial = IORegistryEntryCreateCFProperty(platformExpert,
                                              kIOPlatformSerialNumberKey,
@@ -44,9 +44,9 @@ def fact():
         shard = 100
     # If /usr/local/shard/testing exists shard is always 1 to guarantee testing
     elif os.path.exists('/usr/local/shard/testing'):
-        shard = 1
+        shard = -42
     else:
-        shard = int(int(hashlib.md5(serial).hexdigest(), 16) % 100)
+        shard = int(int(hashlib.md5(serial.encode('utf-8')).hexdigest(), 16) % 100)
     # we don't want to have a zero shard
     if shard == 0:
         return {'shard': shard + 1}
@@ -55,4 +55,4 @@ def fact():
 
 
 if __name__ == '__main__':
-    print fact()
+    print(fact())
