@@ -1,16 +1,18 @@
 import platform
 import plistlib
 import subprocess
-from distutils.version import LooseVersion
+import sys
+sys.path.insert(0, '/usr/local/munki')
+from munkilib.pkgutils import MunkiLooseVersion
 
 def get_os_version():
     '''Return OS version.'''
-    return LooseVersion(platform.mac_ver()[0])
+    return MunkiLooseVersion(platform.mac_ver()[0])
 
 def fact():
     '''Check MDM Enrollment Status'''
     # Check the OS and run our checks based on OS version
-    if get_os_version() >= LooseVersion('10.13.4'):
+    if get_os_version() >= MunkiLooseVersion('10.13.4'):
         # print 'Checking mdm status - modern'
         if check_mdm_status_modern():
             # print 'MDM enrolled device %s' % get_os_version()
